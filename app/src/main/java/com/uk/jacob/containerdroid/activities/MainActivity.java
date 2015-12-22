@@ -1,9 +1,12 @@
-package com.uk.jacob.containerdroid;
+package com.uk.jacob.containerdroid.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.uk.jacob.containerdroid.services.CAdvisorService;
+
+import com.uk.jacob.containerdroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CAdvisorService cAdvisorService = new CAdvisorService();
     }
 
     @Override
