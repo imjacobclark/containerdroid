@@ -1,16 +1,10 @@
 package com.uk.jacob.containerdroid.services;
 
-import android.util.Log;
-
 import com.uk.jacob.containerdroid.models.Container;
 
 import junit.framework.TestCase;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 public class CAdvisorServiceTest extends TestCase {

@@ -5,14 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.uk.jacob.containerdroid.models.Container;
 import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import com.uk.jacob.containerdroid.R;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 

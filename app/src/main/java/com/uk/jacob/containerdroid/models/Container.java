@@ -1,7 +1,5 @@
 package com.uk.jacob.containerdroid.models;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 import java.util.List;

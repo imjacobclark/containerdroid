@@ -1,7 +1,6 @@
 package com.uk.jacob.containerdroid.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uk.jacob.containerdroid.models.Container;
 
