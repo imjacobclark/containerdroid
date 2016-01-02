@@ -21,7 +21,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
             super(itemView);
             containerName = (TextView)itemView.findViewById(R.id.container_name);
             containerNamespace = (TextView)itemView.findViewById(R.id.container_namespace);
-
         }
     }
 
@@ -29,11 +28,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
 
     public ContainerListRecyclerViewAdapter(List<Container> containers){
         this.containers = containers;
-    }
-
-    @Override
-    public int getItemCount() {
-        return containers.size();
     }
 
     @Override
@@ -54,6 +48,11 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public int getItemCount() {
+        return containers.size();
     }
 
     public void addItem(int position, Container data) {

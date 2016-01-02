@@ -1,11 +1,9 @@
 package com.uk.jacob.containerdroid.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,15 +35,23 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ContainerListRecyclerView = (RecyclerView)findViewById(R.id.container_list_recyclerview);
+        // Get a handle on our RecyclerView for interactin and setup
+        ContainerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
+
+        // Grab a new LayoutManager
+        ContainerListLayoutManager = new LinearLayoutManager(this);
+
+        // Grab a new adapter
+        List<Container> containers = new ArrayList<>();
+        ContainerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers);
+
+        // Better performance as the size of our RecyclerView does not change
         ContainerListRecyclerView.setHasFixedSize(true);
 
-        ContainerListLayoutManager = new LinearLayoutManager(this);
+        // Attach our LayoutManager to our RecyclerView
         ContainerListRecyclerView.setLayoutManager(ContainerListLayoutManager);
 
-        List<Container> persons = new ArrayList<>();
-
-        ContainerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(persons);
+        // Wire up adapter for RecyclerView
         ContainerListRecyclerView.setAdapter(ContainerListRecyclerAdapter);
     }
 
