@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
-    private RecyclerView ContainerListRecyclerView;
-    private ContainerListRecyclerViewAdapter ContainerListRecyclerAdapter;
-    private RecyclerView.LayoutManager ContainerListLayoutManager;
+    private RecyclerView containerListRecyclerView;
+    private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
+    private RecyclerView.LayoutManager containerListLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +38,23 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Get a handle on our RecyclerView for interactin and setup
-        ContainerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
+        containerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
 
         // Grab a new LayoutManager
-        ContainerListLayoutManager = new LinearLayoutManager(this);
+        containerListLayoutManager = new LinearLayoutManager(this);
 
         // Grab a new adapter
         List<Container> containers = new ArrayList<>();
-        ContainerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers);
+        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers);
 
         // Better performance as the size of our RecyclerView does not change
-        ContainerListRecyclerView.setHasFixedSize(true);
+        containerListRecyclerView.setHasFixedSize(true);
 
         // Attach our LayoutManager to our RecyclerView
-        ContainerListRecyclerView.setLayoutManager(ContainerListLayoutManager);
+        containerListRecyclerView.setLayoutManager(containerListLayoutManager);
 
         // Wire up adapter for RecyclerView
-        ContainerListRecyclerView.setAdapter(ContainerListRecyclerAdapter);
+        containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume(){
         super.onResume();
 
-        ContainerListRecyclerAdapter.clear();
+        containerListRecyclerAdapter.clear();
 
          /*
             Convenience method to build a new Volley request queue
@@ -104,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
 
                             while(iterator.hasNext()){
                                 Map.Entry<String, Container> container = iterator.next();
-                                ContainerListRecyclerAdapter.addItem(position, container.getValue());
+                                containerListRecyclerAdapter.addItem(position, container.getValue());
                                 position++;
                                 iterator.remove();
                             }
@@ -120,6 +122,9 @@ public class MainActivity extends ActionBarActivity {
                     // On error event where the error is passed into
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        containerListRecyclerView.setVisibility(View.GONE);
+                        TextView activityTitle = (TextView)findViewById(R.id.activity_title);
+                        activityTitle.setText("There was an issue connecting to cAdvisor.");
                         System.out.println(error);
                     }
                 }

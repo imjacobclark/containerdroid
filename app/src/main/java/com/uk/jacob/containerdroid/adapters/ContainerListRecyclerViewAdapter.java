@@ -38,7 +38,14 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     }
 
     @Override
-    public void onBindViewHolder(ContainerListViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(ContainerListViewHolder personViewHolder, final int i) {
+        personViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Recycle Click" + i);
+            }
+        });
+
         personViewHolder.containerName.setText(containers.get(i).getAliases());
         personViewHolder.containerNamespace.setText(containers.get(i).getNamespace());
         personViewHolder.containerNamespace.append(" | ");
