@@ -68,6 +68,8 @@ public class MainActivity extends Activity {
     protected void onResume(){
         super.onResume();
 
+        ContainerListRecyclerAdapter.clear();
+
          /*
             Convenience method to build a new Volley request queue
             Passes in current context, deriving the application context from it

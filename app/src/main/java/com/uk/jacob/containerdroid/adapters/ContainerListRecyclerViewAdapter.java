@@ -16,6 +16,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
         TextView containerNamespace;
+        TextView containerImage;
 
         ContainerListViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +48,8 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public void onBindViewHolder(ContainerListViewHolder personViewHolder, int i) {
         personViewHolder.containerName.setText(containers.get(i).getAliases());
         personViewHolder.containerNamespace.setText(containers.get(i).getNamespace());
+        personViewHolder.containerNamespace.append(" | ");
+        personViewHolder.containerNamespace.append(containers.get(i).getSpec().getImage());
     }
 
     @Override
@@ -57,6 +60,10 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public void addItem(int position, Container data) {
         containers.add(position, data);
         notifyItemInserted(position);
+    }
+    public void clear() {
+        containers.clear();
+        notifyDataSetChanged();
     }
 
 }
