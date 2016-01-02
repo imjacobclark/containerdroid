@@ -2,8 +2,10 @@ package com.uk.jacob.containerdroid.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     private RecyclerView ContainerListRecyclerView;
     private ContainerListRecyclerViewAdapter ContainerListRecyclerAdapter;
     private RecyclerView.LayoutManager ContainerListLayoutManager;

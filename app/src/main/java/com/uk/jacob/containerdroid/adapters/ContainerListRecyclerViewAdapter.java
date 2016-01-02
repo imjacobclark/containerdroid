@@ -16,7 +16,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
         TextView containerNamespace;
-        TextView containerImage;
 
         ContainerListViewHolder(View itemView) {
             super(itemView);
