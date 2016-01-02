@@ -2,9 +2,10 @@ package com.uk.jacob.containerdroid.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,21 +13,38 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.Container;
 import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import com.uk.jacob.containerdroid.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends Activity {
+    private RecyclerView ContainerListRecyclerView;
+    private ContainerListRecyclerViewAdapter ContainerListRecyclerAdapter;
+    private RecyclerView.LayoutManager ContainerListLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ContainerListRecyclerView = (RecyclerView)findViewById(R.id.container_list_recyclerview);
+        ContainerListRecyclerView.setHasFixedSize(true);
+
+        ContainerListLayoutManager = new LinearLayoutManager(this);
+        ContainerListRecyclerView.setLayoutManager(ContainerListLayoutManager);
+
+        List<Container> persons = new ArrayList<>();
+
+        ContainerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(persons);
+        ContainerListRecyclerView.setAdapter(ContainerListRecyclerAdapter);
     }
 
     @Override
@@ -72,15 +90,16 @@ public class MainActivity extends Activity {
                         try {
                             Map<String, Container> containers = cAdvisorService.getContainers(response);
                             Iterator<Map.Entry<String, Container>> iterator = containers.entrySet().iterator();
-
-                            TextView containerList = (TextView)  findViewById(R.id.container_list);
-                            containerList.setText("");
+                            int position = 0;
 
                             while(iterator.hasNext()){
                                 Map.Entry<String, Container> container = iterator.next();
-                                containerList.append(container.getValue().getAliases().concat("\n"));
+                                ContainerListRecyclerAdapter.addItem(position, container.getValue());
+                                position++;
                                 iterator.remove();
                             }
+
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

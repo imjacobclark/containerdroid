@@ -3,4 +3,5 @@
 
     <string name="loading_containers">Loading list of containers...</string>
     <string name="action_settings">Settings</string>
+    <string name="main_activity_intro">Currently running containers</string>
 </resources>

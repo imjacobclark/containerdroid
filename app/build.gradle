@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.uk.jacob.containerdroid"
         minSdkVersion 21
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -25,9 +25,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile "com.android.support:appcompat-v7:21.0.+"
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.2'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
 }
