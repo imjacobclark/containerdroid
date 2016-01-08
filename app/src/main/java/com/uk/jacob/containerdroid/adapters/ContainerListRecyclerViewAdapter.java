@@ -12,6 +12,7 @@ import com.uk.jacob.containerdroid.models.Container;
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
+    public boolean isRefreshing = false;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
@@ -69,6 +70,14 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public void clear() {
         containers.clear();
         notifyDataSetChanged();
+    }
+
+    public boolean isRefreshing() {
+        return isRefreshing;
+    }
+
+    public void setRefreshing(boolean refreshing) {
+        isRefreshing = refreshing;
     }
 
 }

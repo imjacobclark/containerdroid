@@ -2,6 +2,7 @@ package com.uk.jacob.containerdroid.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,25 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
+
+        swiperefreshContainerListRecyclerView.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        containerListRecyclerAdapter.clear();
+
+                        CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
+                        cAdvisorService.fetchDataFromService(context);
+
+                        while(!containerListRecyclerAdapter.isRefreshing()){
+                                swiperefreshContainerListRecyclerView.setRefreshing(false);
+                                return;
+                        }
+                    }
+                }
+        );
+
         // Get a handle on our RecyclerView for interactin and setup
         containerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
 
@@ -72,11 +92,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

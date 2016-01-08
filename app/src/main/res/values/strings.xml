@@ -3,4 +3,5 @@
 
     <string name="action_settings">Settings</string>
     <string name="main_activity_intro">Running</string>
+    <string name="menu_refresh">Refresh</string>
 </resources>

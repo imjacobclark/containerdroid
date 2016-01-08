@@ -25,6 +25,8 @@ public class CAdvisorService {
     }
 
     private void buildContainerListInterface(String response) {
+        containerListRecyclerAdapter.setRefreshing(true);
+
         try {
             Map<String, Container> containers = getContainerObject(response);
             Iterator<Map.Entry<String, Container>> iterator = containers.entrySet().iterator();
@@ -36,6 +38,8 @@ public class CAdvisorService {
                 position++;
                 iterator.remove();
             }
+
+            containerListRecyclerAdapter.setRefreshing(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
