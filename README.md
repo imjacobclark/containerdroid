@@ -14,6 +14,7 @@ Provides information about Docker containers on a particular remote host running
 - Material Design (AppCompat)
 - RecyclerView throughout
 - Volley networking framework
+- Jackson JSON to Model (POJO) mapping
 - Swipe to refresh
 
 ### Screenshots
