@@ -8,32 +8,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.Container;
 import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends ActionBarActivity {
+public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
@@ -42,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_container_list);
 
         final SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
 

@@ -1,6 +1,5 @@
 package com.uk.jacob.containerdroid.adapters;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,15 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.activities.ContainerDetails;
-import com.uk.jacob.containerdroid.activities.MainActivity;
+import com.uk.jacob.containerdroid.activities.ContainerDetailsActivity;
+import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 import com.uk.jacob.containerdroid.models.Container;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
-    private final MainActivity mainActivity;
+    private final ContainerListActivity containerListActivity;
     public boolean isRefreshing = false;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
@@ -33,9 +31,9 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
 
     List<Container> containers;
 
-    public ContainerListRecyclerViewAdapter(List<Container> containers, MainActivity mainActivity){
+    public ContainerListRecyclerViewAdapter(List<Container> containers, ContainerListActivity containerListActivity){
         this.containers = containers;
-        this.mainActivity = mainActivity;
+        this.containerListActivity = containerListActivity;
     }
 
     @Override
@@ -50,9 +48,9 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         containerListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mainActivity, com.uk.jacob.containerdroid.activities.ContainerDetails.class);
+                Intent intent = new Intent(containerListActivity, com.uk.jacob.containerdroid.activities.ContainerDetailsActivity.class);
                 intent.putExtra("containerAlias", containers.get(i).getAliases());
-                mainActivity.startActivity(intent);
+                containerListActivity.startActivity(intent);
             }
         });
 

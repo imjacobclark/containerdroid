@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.ContainerListActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ContainerDetails"
+            android:name=".activities.ContainerDetailsActivity"
             android:label="@string/title_activity_container_details"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".activities.ContainerListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.uk.jacob.containerdroid.activities.MainActivity" />
+                android:value=".activities.ContainerListActivity" />
         </activity>
     </application>
 

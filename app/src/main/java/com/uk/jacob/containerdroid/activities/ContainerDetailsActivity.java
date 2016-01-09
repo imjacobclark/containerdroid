@@ -8,7 +8,7 @@ import com.uk.jacob.containerdroid.models.Container;
 
 import java.io.Serializable;
 
-public class ContainerDetails extends ActionBarActivity {
+public class ContainerDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
