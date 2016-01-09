@@ -1,5 +1,7 @@
 package com.uk.jacob.containerdroid.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,11 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uk.jacob.containerdroid.R;
+import com.uk.jacob.containerdroid.activities.ContainerDetails;
+import com.uk.jacob.containerdroid.activities.MainActivity;
 import com.uk.jacob.containerdroid.models.Container;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
+    private final MainActivity mainActivity;
     public boolean isRefreshing = false;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
@@ -27,8 +33,9 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
 
     List<Container> containers;
 
-    public ContainerListRecyclerViewAdapter(List<Container> containers){
+    public ContainerListRecyclerViewAdapter(List<Container> containers, MainActivity mainActivity){
         this.containers = containers;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -39,18 +46,20 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     }
 
     @Override
-    public void onBindViewHolder(ContainerListViewHolder personViewHolder, final int i) {
-        personViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(ContainerListViewHolder containerListViewHolder, final int i) {
+        containerListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Recycle Click" + i);
+                Intent intent = new Intent(mainActivity, com.uk.jacob.containerdroid.activities.ContainerDetails.class);
+                intent.putExtra("containerAlias", containers.get(i).getAliases());
+                mainActivity.startActivity(intent);
             }
         });
 
-        personViewHolder.containerName.setText(containers.get(i).getAliases());
-        personViewHolder.containerNamespace.setText(containers.get(i).getNamespace());
-        personViewHolder.containerNamespace.append(" | ");
-        personViewHolder.containerNamespace.append(containers.get(i).getSpec().getImage());
+        containerListViewHolder.containerName.setText(containers.get(i).getAliases());
+        containerListViewHolder.containerNamespace.setText(containers.get(i).getNamespace());
+        containerListViewHolder.containerNamespace.append(" | ");
+        containerListViewHolder.containerNamespace.append(containers.get(i).getSpec().getImage());
     }
 
     @Override

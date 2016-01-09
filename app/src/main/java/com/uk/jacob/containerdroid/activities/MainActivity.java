@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Grab a new adapter
         List<Container> containers = new ArrayList<>();
-        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers);
+        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers, this);
 
         // Better performance as the size of our RecyclerView does not change
         containerListRecyclerView.setHasFixedSize(true);
