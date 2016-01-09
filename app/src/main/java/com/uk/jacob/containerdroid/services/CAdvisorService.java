@@ -33,8 +33,7 @@ public class CAdvisorService {
             int position = 0;
 
             while(iterator.hasNext()){
-                Map.Entry<String, Container> container = iterator.next();
-                containerListRecyclerAdapter.addItem(position, container.getValue());
+                containerListRecyclerAdapter.addItem(position, iterator.next().getValue());
                 position++;
                 iterator.remove();
             }

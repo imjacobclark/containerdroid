@@ -57,9 +57,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         });
 
         containerListViewHolder.containerName.setText(containers.get(i).getAliases());
-        containerListViewHolder.containerNamespace.setText(containers.get(i).getNamespace());
-        containerListViewHolder.containerNamespace.append(" | ");
-        containerListViewHolder.containerNamespace.append(containers.get(i).getSpec().getImage());
+        containerListViewHolder.containerNamespace.setText(containers.get(i).getSpec().getImage());
     }
 
     @Override
