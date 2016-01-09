@@ -2,14 +2,12 @@ package com.uk.jacob.containerdroid.models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Container {
+public class ContainerModel {
     private String namespace;
     private String aliases;
-    private ContainerSpec spec;
+    private ContainerSpecModel spec;
 
     public String isNamespace() {
         return namespace;
@@ -35,15 +33,15 @@ public class Container {
         return aliases;
     }
 
-    public ContainerSpec isSpec() {
+    public ContainerSpecModel isSpec() {
         return spec;
     }
 
-    public void setSpec(ContainerSpec spec) {
+    public void setSpec(ContainerSpecModel spec) {
         this.spec = spec;
     }
 
-    public ContainerSpec getSpec() {
+    public ContainerSpecModel getSpec() {
         return spec;
     }
 

@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.models.Container;
-
-import java.io.Serializable;
 
 public class ContainerDetailsActivity extends ActionBarActivity {
 

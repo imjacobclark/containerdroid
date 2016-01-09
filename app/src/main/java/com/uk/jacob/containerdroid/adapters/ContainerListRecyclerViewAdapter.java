@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.activities.ContainerDetailsActivity;
 import com.uk.jacob.containerdroid.activities.ContainerListActivity;
-import com.uk.jacob.containerdroid.models.Container;
+import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
     private final ContainerListActivity containerListActivity;
-    public boolean isRefreshing = false;
+    private boolean isRefreshing = false;
+    private List<ContainerModel> containers;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
@@ -29,9 +29,8 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         }
     }
 
-    List<Container> containers;
 
-    public ContainerListRecyclerViewAdapter(List<Container> containers, ContainerListActivity containerListActivity){
+    public ContainerListRecyclerViewAdapter(List<ContainerModel> containers, ContainerListActivity containerListActivity){
         this.containers = containers;
         this.containerListActivity = containerListActivity;
     }
@@ -68,7 +67,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         return containers.size();
     }
 
-    public void addItem(int position, Container data) {
+    public void addItem(int position, ContainerModel data) {
         containers.add(position, data);
         notifyItemInserted(position);
     }

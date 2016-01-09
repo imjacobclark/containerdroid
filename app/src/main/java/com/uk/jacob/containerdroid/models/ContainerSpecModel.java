@@ -2,7 +2,7 @@ package com.uk.jacob.containerdroid.models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 
-public class ContainerSpec {
+public class ContainerSpecModel {
     private String image;
 
     public String isImage() {

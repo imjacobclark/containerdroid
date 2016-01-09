@@ -11,10 +11,10 @@ import android.view.MenuItem;
 
 
 import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
-import com.uk.jacob.containerdroid.models.Container;
-import com.uk.jacob.containerdroid.services.CAdvisorService;
+import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import com.uk.jacob.containerdroid.R;
+import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
+    CAdvisorService cAdvisorService;
     private Context context = this;
 
     @Override
@@ -48,7 +49,7 @@ public class ContainerListActivity extends ActionBarActivity {
         containerListLayoutManager = new LinearLayoutManager(this);
 
         // Grab a new adapter
-        List<Container> containers = new ArrayList<>();
+        List<ContainerModel> containers = new ArrayList<>();
         containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers, this);
 
         // Better performance as the size of our RecyclerView does not change
@@ -59,6 +60,9 @@ public class ContainerListActivity extends ActionBarActivity {
 
         // Wire up adapter for RecyclerView
         containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
+
+        cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
+
     }
 
     @Override
@@ -83,8 +87,6 @@ public class ContainerListActivity extends ActionBarActivity {
         super.onResume();
 
         containerListRecyclerAdapter.clear();
-
-        CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
         cAdvisorService.fetchDataFromService(context);
     }
 
@@ -92,7 +94,6 @@ public class ContainerListActivity extends ActionBarActivity {
         containerListRecyclerAdapter.clear();
 
         SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-        CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
         cAdvisorService.fetchDataFromService(context);
 
         while(!containerListRecyclerAdapter.isRefreshing()){

@@ -10,7 +10,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
-import com.uk.jacob.containerdroid.models.Container;
+import com.uk.jacob.containerdroid.models.ContainerModel;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
@@ -28,8 +28,8 @@ public class CAdvisorService {
         containerListRecyclerAdapter.setRefreshing(true);
 
         try {
-            Map<String, Container> containers = getContainerObject(response);
-            Iterator<Map.Entry<String, Container>> iterator = containers.entrySet().iterator();
+            Map<String, ContainerModel> containers = getContainerObject(response);
+            Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
             int position = 0;
 
             while(iterator.hasNext()){
@@ -44,9 +44,9 @@ public class CAdvisorService {
         }
     }
 
-    private Map<String, Container> getContainerObject(String apiResponse) throws IOException {
+    private Map<String, ContainerModel> getContainerObject(String apiResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Container> map = mapper.readValue(apiResponse, new TypeReference<Map<String, Container>>() {});
+        Map<String, ContainerModel> map = mapper.readValue(apiResponse, new TypeReference<Map<String, ContainerModel>>() {});
         return map;
     }
 
