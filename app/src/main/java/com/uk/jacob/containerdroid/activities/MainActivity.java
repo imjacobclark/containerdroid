@@ -50,15 +50,7 @@ public class MainActivity extends ActionBarActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        containerListRecyclerAdapter.clear();
-
-                        CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
-                        cAdvisorService.fetchDataFromService(context);
-
-                        while(!containerListRecyclerAdapter.isRefreshing()){
-                                swiperefreshContainerListRecyclerView.setRefreshing(false);
-                                return;
-                        }
+                        refreshContainerList();
                     }
                 }
         );
@@ -91,7 +83,12 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                refreshContainerList();
+                return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -103,5 +100,18 @@ public class MainActivity extends ActionBarActivity {
 
         CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
         cAdvisorService.fetchDataFromService(context);
+    }
+
+    public void refreshContainerList(){
+        containerListRecyclerAdapter.clear();
+
+        SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
+        CAdvisorService cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
+        cAdvisorService.fetchDataFromService(context);
+
+        while(!containerListRecyclerAdapter.isRefreshing()){
+            swiperefreshContainerListRecyclerView.setRefreshing(false);
+            return;
+        }
     }
 }
