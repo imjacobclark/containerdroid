@@ -11,6 +11,7 @@ import com.uk.jacob.containerdroid.R;
 import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
@@ -71,6 +72,12 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         containers.add(position, data);
         notifyItemInserted(position);
     }
+
+    public void removeItem(int position) {
+        containers.remove(position);
+        notifyDataSetChanged();
+    }
+
     public void clear() {
         containers.clear();
         notifyDataSetChanged();

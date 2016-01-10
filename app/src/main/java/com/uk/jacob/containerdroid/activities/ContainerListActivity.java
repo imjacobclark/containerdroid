@@ -85,14 +85,10 @@ public class ContainerListActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
-        containerListRecyclerAdapter.clear();
         cAdvisorService.fetchDataFromService(context);
     }
 
     public void refreshContainerList(){
-        containerListRecyclerAdapter.clear();
-
         SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
         cAdvisorService.fetchDataFromService(context);
 

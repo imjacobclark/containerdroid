@@ -8,6 +8,7 @@ public class ContainerModel {
     private String namespace;
     private String aliases;
     private ContainerSpecModel spec;
+    private String aliasId;
 
     public String isNamespace() {
         return namespace;
@@ -25,12 +26,21 @@ public class ContainerModel {
         return aliases;
     }
 
+    public String isAliasId(){
+        return aliasId;
+    }
+
     public void setAliases(List<String> aliases) {
         this.aliases = aliases.get(0);
+        this.aliasId = aliases.get(1);
     }
 
     public String getAliases(){
         return aliases;
+    }
+
+    public String getAliasId(){
+        return aliasId;
     }
 
     public ContainerSpecModel isSpec() {

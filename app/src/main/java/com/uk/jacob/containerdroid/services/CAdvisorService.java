@@ -14,18 +14,25 @@ import com.uk.jacob.containerdroid.models.ContainerModel;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class CAdvisorService {
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
+    private List<String> currentActiveContainerIds;
+    private List<String> currentCAdvisorIds;
 
     public CAdvisorService(final ContainerListRecyclerViewAdapter containerListRecyclerAdapter) {
         this.containerListRecyclerAdapter = containerListRecyclerAdapter;
+        this.currentActiveContainerIds = new ArrayList<String>();
+        this.currentCAdvisorIds = new ArrayList<String>();
     }
 
     private void buildContainerListInterface(String response) {
         containerListRecyclerAdapter.setRefreshing(true);
+        currentCAdvisorIds.clear();
 
         try {
             Map<String, ContainerModel> containers = getContainerObject(response);
@@ -33,11 +40,34 @@ public class CAdvisorService {
             int position = 0;
 
             while(iterator.hasNext()){
-                containerListRecyclerAdapter.addItem(position, iterator.next().getValue());
-                position++;
-                iterator.remove();
+                ContainerModel container = iterator.next().getValue();
+                currentCAdvisorIds.add(container.getAliasId());
+
+                if(!currentActiveContainerIds.contains(container.getAliasId())){
+                    System.out.println("Running;;");
+                    containerListRecyclerAdapter.addItem(position, container);
+                    currentActiveContainerIds.add(container.getAliasId());
+                }
             }
 
+
+            if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
+                Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
+                while(currentActiveContainerIdsIterator.hasNext()){
+                    if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
+                        /*
+                            BUG: The index positions on these arrays are not correct and cause eronious data being presented in the RecyclerView
+                            I believe it's due to 'currentActiveContainerIds.remove(position);'
+                            Should be using Iterator.remove here as the index is off
+                        */
+                        currentActiveContainerIdsIterator.remove();
+                        containerListRecyclerAdapter.removeItem(position);
+                        currentActiveContainerIds.remove(position);
+                    }
+                }
+            }
+
+            position++;
             containerListRecyclerAdapter.setRefreshing(false);
         } catch (IOException e) {
             e.printStackTrace();
