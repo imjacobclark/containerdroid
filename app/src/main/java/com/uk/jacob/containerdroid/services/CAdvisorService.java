@@ -44,7 +44,6 @@ public class CAdvisorService {
                 currentCAdvisorIds.add(container.getAliasId());
 
                 if(!currentActiveContainerIds.contains(container.getAliasId())){
-                    System.out.println("Running;;");
                     containerListRecyclerAdapter.addItem(position, container);
                     currentActiveContainerIds.add(container.getAliasId());
                 }
