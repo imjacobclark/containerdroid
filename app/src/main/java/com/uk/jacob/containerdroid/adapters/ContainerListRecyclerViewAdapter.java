@@ -11,7 +11,6 @@ import com.uk.jacob.containerdroid.R;
 import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{

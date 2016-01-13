@@ -49,19 +49,12 @@ public class CAdvisorService {
                 }
             }
 
-
             if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
                 Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
                 while(currentActiveContainerIdsIterator.hasNext()){
                     if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
-                        /*
-                            BUG: The index positions on these arrays are not correct and cause eronious data being presented in the RecyclerView
-                            I believe it's due to 'currentActiveContainerIds.remove(position);'
-                            Should be using Iterator.remove here as the index is off
-                        */
                         currentActiveContainerIdsIterator.remove();
                         containerListRecyclerAdapter.removeItem(position);
-                        currentActiveContainerIds.remove(position);
                     }
                 }
             }
