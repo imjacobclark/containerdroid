@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
+import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class CAdvisorService {
+public class CAdvisorService implements ICAdvisorService {
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private List<String> currentActiveContainerIds;
     private List<String> currentCAdvisorIds;
@@ -30,6 +31,8 @@ public class CAdvisorService {
         this.currentCAdvisorIds = new ArrayList<String>();
     }
 
+
+    /* This needs moving to a controller level, should not be here */
     private void buildContainerListInterface(String response) {
         containerListRecyclerAdapter.setRefreshing(true);
         currentCAdvisorIds.clear();
