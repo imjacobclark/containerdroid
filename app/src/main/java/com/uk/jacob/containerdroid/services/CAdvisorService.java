@@ -12,61 +12,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
+import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityController;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class CAdvisorService implements ICAdvisorService {
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
-    private List<String> currentActiveContainerIds;
-    private List<String> currentCAdvisorIds;
+    private ContainerListActivityController containerListActivityController;
 
     public CAdvisorService(final ContainerListRecyclerViewAdapter containerListRecyclerAdapter) {
         this.containerListRecyclerAdapter = containerListRecyclerAdapter;
-        this.currentActiveContainerIds = new ArrayList<String>();
-        this.currentCAdvisorIds = new ArrayList<String>();
+        this.containerListActivityController = new ContainerListActivityController(this.containerListRecyclerAdapter);
     }
 
-
-    /* This needs moving to a controller level, should not be here */
-    private void buildContainerListInterface(String response) {
-        containerListRecyclerAdapter.setRefreshing(true);
-        currentCAdvisorIds.clear();
-
-        try {
-            Map<String, ContainerModel> containers = getContainerObject(response);
-            Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
-            int position = 0;
-
-            while(iterator.hasNext()){
-                ContainerModel container = iterator.next().getValue();
-                currentCAdvisorIds.add(container.getAliasId());
-
-                if(!currentActiveContainerIds.contains(container.getAliasId())){
-                    containerListRecyclerAdapter.addItem(position, container);
-                    currentActiveContainerIds.add(container.getAliasId());
-                }
-            }
-
-            if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
-                Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
-                while(currentActiveContainerIdsIterator.hasNext()){
-                    if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
-                        currentActiveContainerIdsIterator.remove();
-                        containerListRecyclerAdapter.removeItem(position);
-                    }
-                }
-            }
-
-            position++;
-            containerListRecyclerAdapter.setRefreshing(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void buildContainerListInterface(String response) throws IOException {
+        containerListActivityController.buildInterface(getContainerObject(response));
     }
 
     private Map<String, ContainerModel> getContainerObject(String apiResponse) throws IOException {
@@ -82,7 +44,11 @@ public class CAdvisorService implements ICAdvisorService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        buildContainerListInterface(response);
+                        try {
+                            buildContainerListInterface(response);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
