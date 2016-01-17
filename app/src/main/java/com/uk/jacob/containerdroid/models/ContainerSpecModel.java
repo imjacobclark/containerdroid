@@ -1,9 +1,12 @@
 package com.uk.jacob.containerdroid.models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ContainerSpecModel {
     private String image;
+    @JsonProperty("creation_time")
+    private String created;
 
     public String isImage() {
         return image;
@@ -15,6 +18,18 @@ public class ContainerSpecModel {
 
     public String getImage() {
         return image;
+    }
+
+    public String isCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created.toString();
+    }
+
+    public String getCreated() {
+        return created;
     }
 
     @JsonAnySetter

@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
+import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import com.uk.jacob.containerdroid.R;
@@ -61,7 +61,7 @@ public class ContainerListActivity extends ActionBarActivity {
         // Wire up adapter for RecyclerView
         containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
 
-        cAdvisorService = new CAdvisorService(containerListRecyclerAdapter);
+        cAdvisorService = new CAdvisorService();
 
     }
 
@@ -85,12 +85,12 @@ public class ContainerListActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        cAdvisorService.fetchDataFromService(context);
+        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
     }
 
     public void refreshContainerList(){
         SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-        cAdvisorService.fetchDataFromService(context);
+        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
 
         while(!containerListRecyclerAdapter.isRefreshing()){
             swiperefreshContainerListRecyclerView.setRefreshing(false);

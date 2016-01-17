@@ -1,6 +1,6 @@
 package com.uk.jacob.containerdroid.activities.controllers;
 
-import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
+import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 import com.uk.jacob.containerdroid.activities.controllers.interfaces.IActivityController;
 

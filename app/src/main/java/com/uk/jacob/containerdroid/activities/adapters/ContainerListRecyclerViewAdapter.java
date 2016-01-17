@@ -1,4 +1,4 @@
-package com.uk.jacob.containerdroid.adapters;
+package com.uk.jacob.containerdroid.activities.adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.uk.jacob.containerdroid.R;
 import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 import com.uk.jacob.containerdroid.models.ContainerModel;
+import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     private final ContainerListActivity containerListActivity;
     private boolean isRefreshing = false;
     private List<ContainerModel> containers;
+    private CAdvisorService cAdvisorService;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
@@ -33,6 +36,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public ContainerListRecyclerViewAdapter(List<ContainerModel> containers, ContainerListActivity containerListActivity){
         this.containers = containers;
         this.containerListActivity = containerListActivity;
+        this.cAdvisorService = new CAdvisorService();
     }
 
     @Override
@@ -48,13 +52,20 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(containerListActivity, com.uk.jacob.containerdroid.activities.ContainerDetailsActivity.class);
-                intent.putExtra("containerAlias", containers.get(i).getAliases());
+
+                try {
+                    intent.putExtra("container_specs", cAdvisorService.mapObjectToJsonString(containers.get(i).getSpec()));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
                 containerListActivity.startActivity(intent);
             }
         });
 
         containerListViewHolder.containerName.setText(containers.get(i).getAliases());
         containerListViewHolder.containerNamespace.setText(containers.get(i).getSpec().getImage());
+        System.out.println(containers.get(i).getSpec().getCreated());
     }
 
     @Override
