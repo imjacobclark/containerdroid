@@ -42,7 +42,6 @@ public class CAdvisorService implements ICAdvisorService {
         TODO: Refactor ContainerListRecyclerViewAdapter dependency out
         TODO: Convert into singleton so can be called from all activities which require data
     */
-     */
     public void fetchDataFromService(Context context, final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
         final ContainerListActivityController containerListActivityController = new ContainerListActivityController(containerListRecyclerAdapter);
         RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(); //Obtain the instance

@@ -57,7 +57,7 @@ public class ContainerModel {
     }
 /*
     // Causes JSON mapper exception, we're not using this data just yet so it can be omitted from compile
-    
+
     public ContainerStatsModel isStats() {
         return stats;
     }
