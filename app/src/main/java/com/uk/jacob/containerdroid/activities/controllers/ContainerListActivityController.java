@@ -13,11 +13,20 @@ public class ContainerListActivityController implements IActivityController {
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private List<String> currentActiveContainerIds;
     private List<String> currentCAdvisorIds;
+    private static ContainerListActivityController instance = null;
 
-    public ContainerListActivityController(final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
+    private ContainerListActivityController(ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
         this.containerListRecyclerAdapter = containerListRecyclerAdapter;
         this.currentActiveContainerIds = new ArrayList<String>();
         this.currentCAdvisorIds = new ArrayList<String>();
+    }
+
+    public static ContainerListActivityController getInstance(ContainerListRecyclerViewAdapter containerListRecyclerAdapter) {
+        if(instance == null) {
+            instance = new ContainerListActivityController(containerListRecyclerAdapter);
+        }
+
+        return instance;
     }
 
     @Override

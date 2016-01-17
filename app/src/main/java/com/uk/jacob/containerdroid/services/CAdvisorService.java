@@ -35,13 +35,10 @@ public class CAdvisorService implements ICAdvisorService {
     public Object mapJsonToPojo(String json, Class pojo) throws IOException {
         return mapper.readValue(json, pojo);
     }
-
-    /*
-        TODO: Refactor ContainerListRecyclerViewAdapter dependency out
-        TODO: Convert into singleton so can be called from all activities which require data
-    */
+    
     public void fetchDataFromService(Context context, final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
-        final ContainerListActivityController containerListActivityController = new ContainerListActivityController(containerListRecyclerAdapter);
+        final ContainerListActivityController containerListActivityController = ContainerListActivityController.getInstance(containerListRecyclerAdapter);
+
         RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(); //Obtain the instance
 
         StringRequest volleyRequest = new StringRequest(Request.Method.GET,"http://jacob.uk.com:8080/api/v1.3/docker", //Change the url parameter
