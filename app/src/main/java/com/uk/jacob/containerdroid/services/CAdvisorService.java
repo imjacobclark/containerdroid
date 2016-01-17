@@ -12,13 +12,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
-import com.uk.jacob.containerdroid.models.ContainerSpecModel;
 import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
 import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityController;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class CAdvisorService implements ICAdvisorService {
@@ -29,13 +27,13 @@ public class CAdvisorService implements ICAdvisorService {
     }
 
     @Override
-    public String mapObjectToJsonString(ContainerSpecModel containerModels) throws JsonProcessingException {
-        return mapper.writeValueAsString(containerModels);
+    public String mapObjectToJsonString(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
     }
 
     @Override
-    public ContainerSpecModel mapJsonToPojo(String json) throws IOException {
-        return mapper.readValue(json, ContainerSpecModel.class);
+    public Object mapJsonToPojo(String json, Class pojo) throws IOException {
+        return mapper.readValue(json, pojo);
     }
 
     /*

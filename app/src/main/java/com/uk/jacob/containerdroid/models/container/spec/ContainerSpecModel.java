@@ -1,4 +1,4 @@
-package com.uk.jacob.containerdroid.models;
+package com.uk.jacob.containerdroid.models.container.spec;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;

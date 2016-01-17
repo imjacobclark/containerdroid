@@ -55,6 +55,8 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
 
                 try {
                     intent.putExtra("container_specs", cAdvisorService.mapObjectToJsonString(containers.get(i).getSpec()));
+                    intent.putExtra("container_stats", cAdvisorService.mapObjectToJsonString(containers.get(i).getStats()));
+
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -65,7 +67,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
 
         containerListViewHolder.containerName.setText(containers.get(i).getAliases());
         containerListViewHolder.containerNamespace.setText(containers.get(i).getSpec().getImage());
-        System.out.println(containers.get(i).getSpec().getCreated());
     }
 
     @Override

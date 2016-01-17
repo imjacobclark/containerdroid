@@ -1,6 +1,8 @@
 package com.uk.jacob.containerdroid.models;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.uk.jacob.containerdroid.models.container.spec.ContainerSpecModel;
+import com.uk.jacob.containerdroid.models.container.stats.ContainerStatsModel;
 
 import java.util.List;
 
@@ -55,8 +57,6 @@ public class ContainerModel {
     public ContainerSpecModel getSpec() {
         return spec;
     }
-/*
-    // Causes JSON mapper exception, we're not using this data just yet so it can be omitted from compile
 
     public ContainerStatsModel isStats() {
         return stats;
@@ -69,7 +69,7 @@ public class ContainerModel {
     public ContainerStatsModel getStats() {
         return stats;
     }
-*/
+
     @JsonAnySetter
     public void handleUnknown(String key, Object value) {
         // Throw away any property we don't explicitally handle
