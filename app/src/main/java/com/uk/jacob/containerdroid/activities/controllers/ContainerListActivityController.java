@@ -10,29 +10,31 @@ import java.util.List;
 import java.util.Map;
 
 public class ContainerListActivityController implements IActivityController {
-    private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private List<String> currentActiveContainerIds;
     private List<String> currentCAdvisorIds;
     private static ContainerListActivityController instance = null;
 
-    private ContainerListActivityController(ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
-        this.containerListRecyclerAdapter = containerListRecyclerAdapter;
+    private ContainerListActivityController(){
         this.currentActiveContainerIds = new ArrayList<String>();
         this.currentCAdvisorIds = new ArrayList<String>();
     }
 
-    public static ContainerListActivityController getInstance(ContainerListRecyclerViewAdapter containerListRecyclerAdapter) {
+    public static ContainerListActivityController getInstance() {
         if(instance == null) {
-            instance = new ContainerListActivityController(containerListRecyclerAdapter);
+            instance = new ContainerListActivityController();
         }
 
         return instance;
     }
 
     @Override
-    public void buildInterface(Map containers) {
+    public void buildInterface(Map containers, ContainerListRecyclerViewAdapter containerListRecyclerAdapter) {
         containerListRecyclerAdapter.setRefreshing(true);
         currentCAdvisorIds.clear();
+
+        if(containerListRecyclerAdapter.getItemCount() == 0) {
+            currentActiveContainerIds.clear();
+        }
 
         Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
         int position = 0;
@@ -47,7 +49,10 @@ public class ContainerListActivityController implements IActivityController {
             }
         }
 
+        System.out.println(currentCAdvisorIds.equals(currentActiveContainerIds));
+
         if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
+
             Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
             while(currentActiveContainerIdsIterator.hasNext()){
                 if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){

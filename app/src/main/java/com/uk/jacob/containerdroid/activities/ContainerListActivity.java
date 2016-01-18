@@ -63,6 +63,7 @@ public class ContainerListActivity extends ActionBarActivity {
 
         cAdvisorService = new CAdvisorService();
 
+        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
     }
 
     @Override
@@ -85,7 +86,6 @@ public class ContainerListActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
     }
 
     public void refreshContainerList(){

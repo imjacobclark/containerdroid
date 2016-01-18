@@ -6,5 +6,5 @@ import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityC
 import java.util.Map;
 
 public interface IActivityController {
-    void buildInterface(Map list);
+    void buildInterface(Map list, ContainerListRecyclerViewAdapter containerListRecyclerAdapter);
 }

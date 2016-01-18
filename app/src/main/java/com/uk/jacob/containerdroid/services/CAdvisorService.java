@@ -35,10 +35,8 @@ public class CAdvisorService implements ICAdvisorService {
     public Object mapJsonToPojo(String json, Class pojo) throws IOException {
         return mapper.readValue(json, pojo);
     }
-    
-    public void fetchDataFromService(Context context, final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
-        final ContainerListActivityController containerListActivityController = ContainerListActivityController.getInstance(containerListRecyclerAdapter);
 
+    public void fetchDataFromService(Context context, final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
         RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(); //Obtain the instance
 
         StringRequest volleyRequest = new StringRequest(Request.Method.GET,"http://jacob.uk.com:8080/api/v1.3/docker", //Change the url parameter
@@ -47,7 +45,7 @@ public class CAdvisorService implements ICAdvisorService {
                     public void onResponse(String response) {
                         try {
                             Map<String, ContainerModel> map = mapper.readValue(response, new TypeReference<Map<String, ContainerModel>>() {});
-                            containerListActivityController.buildInterface(map);
+                            ContainerListActivityController.getInstance().buildInterface(map, containerListRecyclerAdapter);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
