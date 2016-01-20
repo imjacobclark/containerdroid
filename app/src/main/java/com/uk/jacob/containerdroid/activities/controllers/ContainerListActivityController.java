@@ -32,10 +32,6 @@ public class ContainerListActivityController implements IActivityController {
         containerListRecyclerAdapter.setRefreshing(true);
         currentCAdvisorIds.clear();
 
-        if(containerListRecyclerAdapter.getItemCount() == 0) {
-            currentActiveContainerIds.clear();
-        }
-
         Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
         int position = 0;
 
@@ -49,10 +45,7 @@ public class ContainerListActivityController implements IActivityController {
             }
         }
 
-        System.out.println(currentCAdvisorIds.equals(currentActiveContainerIds));
-
         if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
-
             Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
             while(currentActiveContainerIdsIterator.hasNext()){
                 if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
