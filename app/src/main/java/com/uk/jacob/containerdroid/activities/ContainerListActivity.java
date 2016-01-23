@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
@@ -23,47 +22,17 @@ public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
-    CAdvisorService cAdvisorService;
+    private CAdvisorService cAdvisorService = new CAdvisorService();
     private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_container_list);
 
-        final SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-
-        swiperefreshContainerListRecyclerView.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refreshContainerList();
-                    }
-                }
-        );
-
-        // Get a handle on our RecyclerView for interactin and setup
-        containerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
-
-        // Grab a new LayoutManager
-        containerListLayoutManager = new LinearLayoutManager(this);
-
-        // Grab a new adapter
-        List<ContainerModel> containers = new ArrayList<>();
-        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers, this);
-
-        // Better performance as the size of our RecyclerView does not change
-        containerListRecyclerView.setHasFixedSize(true);
-
-        // Attach our LayoutManager to our RecyclerView
-        containerListRecyclerView.setLayoutManager(containerListLayoutManager);
-
-        // Wire up adapter for RecyclerView
-        containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
-
-        cAdvisorService = new CAdvisorService();
-
-        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
+        createContainerListRecyclerView();
+        createSwipeToRefreshListener();
     }
 
     @Override
@@ -85,7 +54,36 @@ public class ContainerListActivity extends ActionBarActivity {
 
     @Override
     protected void onResume(){
+        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
         super.onResume();
+    }
+
+    private void createContainerListRecyclerView() {
+        containerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
+
+        containerListLayoutManager = new LinearLayoutManager(this);
+
+        List<ContainerModel> containers = new ArrayList<>();
+        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers, this);
+
+        containerListRecyclerView.setHasFixedSize(true);
+
+        containerListRecyclerView.setLayoutManager(containerListLayoutManager);
+
+        containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
+    }
+
+    private void createSwipeToRefreshListener() {
+        final SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
+
+        swiperefreshContainerListRecyclerView.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refreshContainerList();
+                    }
+                }
+        );
     }
 
     public void refreshContainerList(){

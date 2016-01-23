@@ -15,8 +15,8 @@ public class ContainerListActivityController implements IActivityController {
     private static ContainerListActivityController instance = null;
 
     private ContainerListActivityController(){
-        this.currentActiveContainerIds = new ArrayList<String>();
-        this.currentCAdvisorIds = new ArrayList<String>();
+        this.currentActiveContainerIds = new ArrayList<>();
+        this.currentCAdvisorIds = new ArrayList<>();
     }
 
     public static ContainerListActivityController getInstance() {
@@ -35,27 +35,37 @@ public class ContainerListActivityController implements IActivityController {
         Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
         int position = 0;
 
-        while(iterator.hasNext()){
-            ContainerModel container = iterator.next().getValue();
-            currentCAdvisorIds.add(container.getAliasId());
+        if(containerListRecyclerAdapter.getItemCount() == 0) {
+            currentActiveContainerIds.clear();
+        }
 
-            if(!currentActiveContainerIds.contains(container.getAliasId())){
-                containerListRecyclerAdapter.addItem(position, container);
-                currentActiveContainerIds.add(container.getAliasId());
-            }
+        while(iterator.hasNext()){
+            renderIntoActivity(containerListRecyclerAdapter, position, iterator.next().getValue());
         }
 
         if(!currentCAdvisorIds.equals(currentActiveContainerIds)){
-            Iterator currentActiveContainerIdsIterator = currentActiveContainerIds.iterator();
-            while(currentActiveContainerIdsIterator.hasNext()){
-                if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
-                    currentActiveContainerIdsIterator.remove();
-                    containerListRecyclerAdapter.removeItem(position);
-                }
-            }
+            resyncActivityData(containerListRecyclerAdapter, position, currentActiveContainerIds.iterator());
         }
 
         position++;
         containerListRecyclerAdapter.setRefreshing(false);
+    }
+
+    private void resyncActivityData(ContainerListRecyclerViewAdapter containerListRecyclerAdapter, int position, Iterator currentActiveContainerIdsIterator) {
+        while(currentActiveContainerIdsIterator.hasNext()){
+            if(!currentCAdvisorIds.contains(currentActiveContainerIdsIterator.next())){
+                currentActiveContainerIdsIterator.remove();
+                containerListRecyclerAdapter.removeItem(position);
+            }
+        }
+    }
+
+    private void renderIntoActivity(ContainerListRecyclerViewAdapter containerListRecyclerAdapter, int position, ContainerModel container) {
+        currentCAdvisorIds.add(container.getAliasId());
+
+        if(!currentActiveContainerIds.contains(container.getAliasId())){
+            containerListRecyclerAdapter.addItem(position, container);
+            currentActiveContainerIds.add(container.getAliasId());
+        }
     }
 }

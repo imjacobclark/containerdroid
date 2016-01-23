@@ -21,7 +21,6 @@ public class VolleySingleton extends Application {
     private VolleySingleton(Context context) {
         this.context = context;
         requestQueue = getRequestQueue();
-
     }
 
     public static synchronized VolleySingleton getInstance(Context context) {
@@ -35,6 +34,9 @@ public class VolleySingleton extends Application {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
+
+        requestQueue.getCache().clear();
+
         return requestQueue;
     }
 }
