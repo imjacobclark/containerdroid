@@ -10,20 +10,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
+import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityController;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.services.CAdvisorService;
+import com.uk.jacob.containerdroid.repositories.CAdvisorRepository;
+import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
-    private CAdvisorService cAdvisorService = new CAdvisorService();
-    private Context context = this;
+    private CAdvisorRepository cAdvisorRepository = new CAdvisorRepository();
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class ContainerListActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_container_list);
 
+        setAppContext(getApplicationContext());
         createContainerListRecyclerView();
         createSwipeToRefreshListener();
     }
@@ -54,7 +58,8 @@ public class ContainerListActivity extends ActionBarActivity {
 
     @Override
     protected void onResume(){
-        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
+        fetchData();
+
         super.onResume();
     }
 
@@ -88,11 +93,34 @@ public class ContainerListActivity extends ActionBarActivity {
 
     public void refreshContainerList(){
         SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-        cAdvisorService.fetchDataFromService(context, containerListRecyclerAdapter);
+
+        refreshData();
+        fetchData();
 
         while(!containerListRecyclerAdapter.isRefreshing()){
             swiperefreshContainerListRecyclerView.setRefreshing(false);
             return;
         }
+    }
+
+    private void refreshData() {
+        cAdvisorRepository.refreshData();
+    }
+
+    private void fetchData() {
+        cAdvisorRepository.getContainers(new ICAdvisorRepository.LoadContainersCallback() {
+            @Override
+            public void onContainersLoaded(Map containers) {
+                ContainerListActivityController.getInstance().buildInterface(containers, containerListRecyclerAdapter);
+            }
+        });
+    }
+
+    public static Context getAppContext() {
+        return context;
+    }
+
+    public void setAppContext(Context mAppContext) {
+        this.context = mAppContext;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 
 public class VolleySingleton extends Application {
     private static VolleySingleton instance;
@@ -15,24 +16,24 @@ public class VolleySingleton extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        this.context = null;
         instance = this;
     }
 
-    private VolleySingleton(Context context) {
-        this.context = context;
+    private VolleySingleton() {
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized VolleySingleton getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance() {
         if (instance == null) {
-            instance = new VolleySingleton(context);
+            instance = new VolleySingleton();
         }
         return instance;
     }
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+            requestQueue = Volley.newRequestQueue(ContainerListActivity.getAppContext());
         }
 
         requestQueue.getCache().clear();

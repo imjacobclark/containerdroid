@@ -1,7 +1,5 @@
 package com.uk.jacob.containerdroid.services;
 
-import android.content.Context;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -10,10 +8,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
+import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
 import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
-import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityController;
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
@@ -36,27 +33,29 @@ public class CAdvisorService implements ICAdvisorService {
         return mapper.readValue(json, pojo);
     }
 
-    public void fetchDataFromService(Context context, final ContainerListRecyclerViewAdapter containerListRecyclerAdapter){
-        RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(); //Obtain the instance
-
-        StringRequest volleyRequest = new StringRequest(Request.Method.GET,"http://jacob.uk.com:8080/api/v1.3/docker", //Change the url parameter
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Map<String, ContainerModel> map = mapper.readValue(response, new TypeReference<Map<String, ContainerModel>>() {});
-                            ContainerListActivityController.getInstance().buildInterface(map, containerListRecyclerAdapter);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+    public void fetchDataFromService(final ICAdvisorRepository.LoadContainersCallback callback){
+        VolleySingleton.getInstance().getRequestQueue().add(
+                new StringRequest(
+                        Request.Method.GET,
+                        "http://jacob.uk.com:8080/api/v1.3/docker",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    Map<String, ContainerModel> map = mapper.readValue(response, new TypeReference<Map<String, ContainerModel>>() {});
+                                    callback.onContainersLoaded(map);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        queue.add(volleyRequest);
+                )
+        );
     }
 }
