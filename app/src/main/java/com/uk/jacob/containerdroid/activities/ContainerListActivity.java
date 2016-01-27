@@ -25,6 +25,9 @@ public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
+
+    private SwipeRefreshLayout swiperefreshContainerListRecyclerView;
+
     private CAdvisorRepository cAdvisorRepository = CAdvisorRepository.getInstance();
     private static Context context;
 
@@ -35,6 +38,7 @@ public class ContainerListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_container_list);
 
         setAppContext(getApplicationContext());
+
         createContainerListRecyclerView();
         createSwipeToRefreshListener();
     }
@@ -91,14 +95,8 @@ public class ContainerListActivity extends ActionBarActivity {
     }
 
     public void refreshContainerList(){
-        SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-
+        swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
         refreshData();
-
-        while(!containerListRecyclerAdapter.isRefreshing()){
-            swiperefreshContainerListRecyclerView.setRefreshing(false);
-            return;
-        }
     }
 
     private void refreshData() {
@@ -106,6 +104,7 @@ public class ContainerListActivity extends ActionBarActivity {
             @Override
             public void onContainersLoaded(Map containers) {
                 renderContainersIntoRecyclerView(containers);
+                swiperefreshContainerListRecyclerView.setRefreshing(false);
             }
         });
     }

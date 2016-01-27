@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
     private final ContainerListActivity containerListActivity;
-    private boolean isRefreshing = false;
     private List<ContainerModel> containers;
     private CAdvisorService cAdvisorService;
 
@@ -93,13 +92,4 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
         containers.clear();
         notifyDataSetChanged();
     }
-
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
-
-    public void setRefreshing(boolean refreshing) {
-        isRefreshing = refreshing;
-    }
-
 }
