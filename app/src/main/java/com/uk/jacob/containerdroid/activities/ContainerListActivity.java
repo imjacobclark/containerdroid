@@ -9,8 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.uk.jacob.containerdroid.activities.adapters.ContainerListRecyclerViewAdapter;
-import com.uk.jacob.containerdroid.activities.controllers.ContainerListActivityController;
+import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import com.uk.jacob.containerdroid.R;
@@ -18,6 +17,7 @@ import com.uk.jacob.containerdroid.repositories.CAdvisorRepository;
 import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
-    private CAdvisorRepository cAdvisorRepository = new CAdvisorRepository();
+    private CAdvisorRepository cAdvisorRepository = CAdvisorRepository.getInstance();
     private static Context context;
 
     @Override
@@ -59,7 +59,6 @@ public class ContainerListActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         fetchData();
-
         super.onResume();
     }
 
@@ -95,7 +94,6 @@ public class ContainerListActivity extends ActionBarActivity {
         SwipeRefreshLayout swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
 
         refreshData();
-        fetchData();
 
         while(!containerListRecyclerAdapter.isRefreshing()){
             swiperefreshContainerListRecyclerView.setRefreshing(false);
@@ -104,16 +102,34 @@ public class ContainerListActivity extends ActionBarActivity {
     }
 
     private void refreshData() {
-        cAdvisorRepository.refreshData();
+        cAdvisorRepository.refreshData(new ICAdvisorRepository.LoadContainersCallback() {
+            @Override
+            public void onContainersLoaded(Map containers) {
+                renderContainersIntoRecyclerView(containers);
+            }
+        });
     }
 
     private void fetchData() {
         cAdvisorRepository.getContainers(new ICAdvisorRepository.LoadContainersCallback() {
             @Override
             public void onContainersLoaded(Map containers) {
-                ContainerListActivityController.getInstance().buildInterface(containers, containerListRecyclerAdapter);
+                renderContainersIntoRecyclerView(containers);
             }
         });
+    }
+
+    private void renderContainersIntoRecyclerView(Map containers) {
+        containerListRecyclerAdapter.clear();
+
+        Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();
+        int position = 0;
+
+        while(iterator.hasNext()){
+            containerListRecyclerAdapter.addItem(position, iterator.next().getValue());
+        }
+
+        position++;
     }
 
     public static Context getAppContext() {

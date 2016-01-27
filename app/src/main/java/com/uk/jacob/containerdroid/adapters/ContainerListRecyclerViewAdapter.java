@@ -1,4 +1,4 @@
-package com.uk.jacob.containerdroid.activities.adapters;
+package com.uk.jacob.containerdroid.adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
