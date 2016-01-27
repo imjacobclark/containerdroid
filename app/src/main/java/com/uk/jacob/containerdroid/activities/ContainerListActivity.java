@@ -102,7 +102,7 @@ public class ContainerListActivity extends ActionBarActivity {
     }
 
     private void refreshData() {
-        cAdvisorRepository.refreshData(new ICAdvisorRepository.LoadContainersCallback() {
+        cAdvisorRepository.refreshData(new ICAdvisorRepository.GetContainersCallback() {
             @Override
             public void onContainersLoaded(Map containers) {
                 renderContainersIntoRecyclerView(containers);
@@ -111,7 +111,7 @@ public class ContainerListActivity extends ActionBarActivity {
     }
 
     private void fetchData() {
-        cAdvisorRepository.getContainers(new ICAdvisorRepository.LoadContainersCallback() {
+        cAdvisorRepository.getContainers(new ICAdvisorRepository.GetContainersCallback() {
             @Override
             public void onContainersLoaded(Map containers) {
                 renderContainersIntoRecyclerView(containers);

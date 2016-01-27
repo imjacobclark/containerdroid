@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface ICAdvisorService {
     String mapObjectToJsonString(Object containerModels) throws JsonProcessingException;
     Object mapJsonToPojo(String json, Class pojo) throws IOException;
-    void fetchDataFromService(final ICAdvisorRepository.LoadContainersCallback callback);
+    void fetchDataFromService(final ICAdvisorRepository.GetContainersCallback callback);
 }

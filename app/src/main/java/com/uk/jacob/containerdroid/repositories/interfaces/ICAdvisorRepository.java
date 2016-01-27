@@ -3,11 +3,11 @@ package com.uk.jacob.containerdroid.repositories.interfaces;
 import java.util.Map;
 
 public interface ICAdvisorRepository {
-    interface LoadContainersCallback {
+    interface GetContainersCallback {
         void onContainersLoaded(Map containers);
     }
 
-    void getContainers(LoadContainersCallback callback);
+    void getContainers(GetContainersCallback callback);
 
-    void refreshData(LoadContainersCallback callback);
+    void refreshData(GetContainersCallback callback);
 }

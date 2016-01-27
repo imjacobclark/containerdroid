@@ -23,11 +23,11 @@ public class CAdvisorRepository implements ICAdvisorRepository {
     }
 
     @Override
-    public void getContainers(final LoadContainersCallback callback) {
+    public void getContainers(final GetContainersCallback callback) {
         if(cAdvisorService == null){
             cAdvisorService = new CAdvisorService();
 
-            cAdvisorService.fetchDataFromService(new CAdvisorRepository.LoadContainersCallback(){
+            cAdvisorService.fetchDataFromService(new CAdvisorRepository.GetContainersCallback(){
                 @Override
                 public void onContainersLoaded(Map containers) {
                     mContainers = containers;
@@ -40,9 +40,10 @@ public class CAdvisorRepository implements ICAdvisorRepository {
     }
 
     @Override
-    public void refreshData(final LoadContainersCallback callback) {
+    public void refreshData(final GetContainersCallback callback) {
         cAdvisorService = new CAdvisorService();
-        cAdvisorService.fetchDataFromService(new CAdvisorRepository.LoadContainersCallback(){
+
+        cAdvisorService.fetchDataFromService(new CAdvisorRepository.GetContainersCallback(){
             @Override
             public void onContainersLoaded(Map containers) {
                 mContainers = containers;

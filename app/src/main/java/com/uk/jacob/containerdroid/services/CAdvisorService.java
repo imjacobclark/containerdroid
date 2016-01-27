@@ -33,7 +33,7 @@ public class CAdvisorService implements ICAdvisorService {
         return mapper.readValue(json, pojo);
     }
 
-    public void fetchDataFromService(final ICAdvisorRepository.LoadContainersCallback callback){
+    public void fetchDataFromService(final ICAdvisorRepository.GetContainersCallback callback){
         VolleySingleton.getInstance().getRequestQueue().add(
                 new StringRequest(
                         Request.Method.GET,
