@@ -18,13 +18,6 @@ public class ContainerDetailsActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CAdvisorService cAdvisorService = new CAdvisorService();
-
-        try {
-            ContainerStatsModel containerStats = (ContainerStatsModel) cAdvisorService.mapJsonToPojo(getIntent().getStringExtra("container_stats"), ContainerStatsModel.class);
-            System.out.println(containerStats.getTimestamp());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

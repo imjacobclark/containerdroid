@@ -51,15 +51,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(containerListActivity, com.uk.jacob.containerdroid.activities.ContainerDetailsActivity.class);
-
-                try {
-                    intent.putExtra("container_specs", cAdvisorService.mapObjectToJsonString(containers.get(i).getSpec()));
-                    intent.putExtra("container_stats", cAdvisorService.mapObjectToJsonString(containers.get(i).getStats()));
-
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-
                 containerListActivity.startActivity(intent);
             }
         });

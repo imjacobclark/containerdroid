@@ -2,6 +2,7 @@ package com.uk.jacob.containerdroid.repositories;
 
 import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
 import com.uk.jacob.containerdroid.services.CAdvisorService;
+import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
 
 import java.util.Map;
 
@@ -27,13 +28,14 @@ public class CAdvisorRepository implements ICAdvisorRepository {
         if(cAdvisorService == null){
             cAdvisorService = new CAdvisorService();
 
-            cAdvisorService.fetchDataFromService(new CAdvisorRepository.GetContainersCallback(){
+            cAdvisorService.fetchDataFromService(new ICAdvisorService.Callback(){
                 @Override
-                public void onContainersLoaded(Map containers) {
+                public void callback(Map containers) {
                     mContainers = containers;
                     callback.onContainersLoaded(containers);
                 }
             });
+
         }else{
             callback.onContainersLoaded(mContainers);
         }
@@ -43,9 +45,9 @@ public class CAdvisorRepository implements ICAdvisorRepository {
     public void refreshData(final GetContainersCallback callback) {
         cAdvisorService = new CAdvisorService();
 
-        cAdvisorService.fetchDataFromService(new CAdvisorRepository.GetContainersCallback(){
+        cAdvisorService.fetchDataFromService(new ICAdvisorService.Callback(){
             @Override
-            public void onContainersLoaded(Map containers) {
+            public void callback(Map containers) {
                 mContainers = containers;
                 callback.onContainersLoaded(containers);
             }

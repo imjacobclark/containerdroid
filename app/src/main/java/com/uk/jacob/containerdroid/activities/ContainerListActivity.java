@@ -13,8 +13,8 @@ import com.uk.jacob.containerdroid.adapters.ContainerListRecyclerViewAdapter;
 import com.uk.jacob.containerdroid.models.ContainerModel;
 
 import com.uk.jacob.containerdroid.R;
-import com.uk.jacob.containerdroid.repositories.CAdvisorRepository;
-import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
+import com.uk.jacob.containerdroid.presenters.ContainerListActivityPresenter;
+import com.uk.jacob.containerdroid.presenters.interfaces.IContainerListActivityPresenter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,12 +23,13 @@ import java.util.Map;
 
 public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
-    private ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
+    private static ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
     private RecyclerView.LayoutManager containerListLayoutManager;
 
     private SwipeRefreshLayout swiperefreshContainerListRecyclerView;
 
-    private CAdvisorRepository cAdvisorRepository = CAdvisorRepository.getInstance();
+    private ContainerListActivityPresenter containerListActivityPresenter = new ContainerListActivityPresenter();
+
     private static Context context;
 
     @Override
@@ -62,7 +63,13 @@ public class ContainerListActivity extends ActionBarActivity {
 
     @Override
     protected void onResume(){
-        fetchData();
+        containerListActivityPresenter.fetchData(new IContainerListActivityPresenter.Callback() {
+            @Override
+            public void callback(Map containers) {
+                renderContainersIntoRecyclerView(containers);
+            }
+        });
+
         super.onResume();
     }
 
@@ -96,29 +103,16 @@ public class ContainerListActivity extends ActionBarActivity {
 
     public void refreshContainerList(){
         swiperefreshContainerListRecyclerView = (SwipeRefreshLayout) this.findViewById(R.id.swiperefresh_container_list_recyclerview);
-        refreshData();
-    }
-
-    private void refreshData() {
-        cAdvisorRepository.refreshData(new ICAdvisorRepository.GetContainersCallback() {
+        containerListActivityPresenter.refreshData(new IContainerListActivityPresenter.Callback() {
             @Override
-            public void onContainersLoaded(Map containers) {
+            public void callback(Map containers) {
                 renderContainersIntoRecyclerView(containers);
                 swiperefreshContainerListRecyclerView.setRefreshing(false);
             }
         });
     }
 
-    private void fetchData() {
-        cAdvisorRepository.getContainers(new ICAdvisorRepository.GetContainersCallback() {
-            @Override
-            public void onContainersLoaded(Map containers) {
-                renderContainersIntoRecyclerView(containers);
-            }
-        });
-    }
-
-    private void renderContainersIntoRecyclerView(Map containers) {
+    public void renderContainersIntoRecyclerView(Map containers) {
         containerListRecyclerAdapter.clear();
 
         Iterator<Map.Entry<String, ContainerModel>> iterator = containers.entrySet().iterator();

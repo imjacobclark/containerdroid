@@ -1,16 +1,17 @@
 package com.uk.jacob.containerdroid.services;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.uk.jacob.containerdroid.models.ContainerModel;
-import com.uk.jacob.containerdroid.repositories.interfaces.ICAdvisorRepository;
+
 import com.uk.jacob.containerdroid.services.interfaces.ICAdvisorService;
+
+import com.uk.jacob.containerdroid.models.ContainerModel;
+
 import com.uk.jacob.containerdroid.volley.VolleySingleton;
 
 import java.io.IOException;
@@ -23,17 +24,7 @@ public class CAdvisorService implements ICAdvisorService {
         this.mapper = new ObjectMapper();
     }
 
-    @Override
-    public String mapObjectToJsonString(Object object) throws JsonProcessingException {
-        return mapper.writeValueAsString(object);
-    }
-
-    @Override
-    public Object mapJsonToPojo(String json, Class pojo) throws IOException {
-        return mapper.readValue(json, pojo);
-    }
-
-    public void fetchDataFromService(final ICAdvisorRepository.GetContainersCallback callback){
+    public void fetchDataFromService(final Callback callback){
         VolleySingleton.getInstance().getRequestQueue().add(
                 new StringRequest(
                         Request.Method.GET,
@@ -43,7 +34,7 @@ public class CAdvisorService implements ICAdvisorService {
                             public void onResponse(String response) {
                                 try {
                                     Map<String, ContainerModel> map = mapper.readValue(response, new TypeReference<Map<String, ContainerModel>>() {});
-                                    callback.onContainersLoaded(map);
+                                    callback.callback(map);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
