@@ -7,18 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.uk.jacob.containerdroid.R;
 import com.uk.jacob.containerdroid.activities.ContainerListActivity;
 import com.uk.jacob.containerdroid.models.ContainerModel;
-import com.uk.jacob.containerdroid.services.CAdvisorService;
 
 import java.util.List;
 
 public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<ContainerListRecyclerViewAdapter.ContainerListViewHolder>{
     private final ContainerListActivity containerListActivity;
     private List<ContainerModel> containers;
-    private CAdvisorService cAdvisorService;
 
     public static class ContainerListViewHolder extends RecyclerView.ViewHolder {
         TextView containerName;
@@ -35,7 +32,6 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
     public ContainerListRecyclerViewAdapter(List<ContainerModel> containers, ContainerListActivity containerListActivity){
         this.containers = containers;
         this.containerListActivity = containerListActivity;
-        this.cAdvisorService = new CAdvisorService();
     }
 
     @Override
@@ -51,6 +47,7 @@ public class ContainerListRecyclerViewAdapter extends RecyclerView.Adapter<Conta
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(containerListActivity, com.uk.jacob.containerdroid.activities.ContainerDetailsActivity.class);
+                intent.putExtra("container_alias", containers.get(i).getAliasId());
                 containerListActivity.startActivity(intent);
             }
         });

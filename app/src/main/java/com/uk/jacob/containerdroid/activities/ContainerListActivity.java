@@ -18,13 +18,11 @@ import com.uk.jacob.containerdroid.presenters.interfaces.IContainerListActivityP
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class ContainerListActivity extends ActionBarActivity {
     private RecyclerView containerListRecyclerView;
     private static ContainerListRecyclerViewAdapter containerListRecyclerAdapter;
-    private RecyclerView.LayoutManager containerListLayoutManager;
 
     private SwipeRefreshLayout swiperefreshContainerListRecyclerView;
 
@@ -76,16 +74,12 @@ public class ContainerListActivity extends ActionBarActivity {
     private void createContainerListRecyclerView() {
         containerListRecyclerView = (RecyclerView) findViewById(R.id.container_list_recyclerview);
 
-        containerListLayoutManager = new LinearLayoutManager(this);
-
-        List<ContainerModel> containers = new ArrayList<>();
-        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(containers, this);
+        containerListRecyclerAdapter = new ContainerListRecyclerViewAdapter(new ArrayList<ContainerModel>(), this);
 
         containerListRecyclerView.setHasFixedSize(true);
-
-        containerListRecyclerView.setLayoutManager(containerListLayoutManager);
-
+        containerListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         containerListRecyclerView.setAdapter(containerListRecyclerAdapter);
+
     }
 
     private void createSwipeToRefreshListener() {
